@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/0yLDmmxY/images.png">
+  <meta property="og:title" content="Pressão Positiva">
+<meta property="og:description" content="Faça Parte da Missão de Controlar a Hipertensão em Portugal!">
+<meta property="og:image" content="https://i.postimg.cc/0yLDmmxY/images.png">
+<meta property="og:url" content="https://pressaopositiva.pt">
+<meta name="twitter:card" content="summary_large_image">
+
+    <title>Pressão Positiva</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include external CSS libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Include Anime.js for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+    <!-- Include Chart.js for histograms -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <!-- Include Chart.js Annotation Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
+    <!-- Include custom CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2em;
+            text-align: center;
+            color: #ff0000;
+            margin-top: 20px;
+            max-width: 100%;
+            overflow: hidden;
+            animation: heartbeat 1.2s infinite;
+        }
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.7);
+            }
+            20% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(2);
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .subtitle {
+            margin: 20px auto;
+            font-size: 1.2em;
+        }
+        .subtitle a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+        .intro {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            margin: 20px 0;
+        }
+        .option {
+            width: 50%;
+            padding: 120px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff0000, #0000ff);
+            color: #fff;
+            font-size: 2em;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 0;
+            position: relative;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 2px solid #fff;
+            box-sizing: border-box;
+        }
+        .option:hover {
+            background: linear-gradient(45deg, #0000ff, #ff0000);
+        }
+        .section {
+            display: none;
+            margin-top: 40px; /* Increased margin */
+        }
+        .map-container {
+            text-align: center;
+        }
+        iframe {
+            width: 100%;
+            height: 480px;
+            border: none;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        .checklist li {
+            margin: 15px 0; /* Increased margin */
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+        }
+        .checklist input[type="checkbox"] {
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #fff;
+            margin-right: 15px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+        }
+        .checklist input[type="checkbox"]:checked::before {
+            content: '✔';
+            position: absolute;
+            top: -2px;
+            left: 4px;
+            color: #00ff00;
+            font-size: 1.5em;
+        }
+        .form-section {
+            margin-top: 40px; /* Increased margin */
+            text-align: left;
+        }
+        .form-section label {
+            display: block;
+            margin: 20px 0 10px; /* Increased margins */
+            font-size: 1.1em;
+        }
+        .form-section input,
+        .form-section select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: #000;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box; /* Added this line */
+        }
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff0000, #0000ff);
+            color: #fff;
+            font-size: 1.5em;
+            border: 2px solid #fff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+        .submit-button:hover {
+            background: linear-gradient(45deg, #0000ff, #ff0000);
+        }
+        .charts {
+            width: 100%;
+            margin: 40px 0; /* Increased margin */
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 40px; /* Increased margin */
+        }
+        .share-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            font-size: 1.5em;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 40px; /* Increased margin */
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 2px solid #fff;
+            box-sizing: border-box;
+        }
+        .share-button:hover {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+        }
+        .participants {
+            margin: 40px 0; /* Increased margin */
+            text-align: center;
+        }
+        .participants h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .participants iframe,
+        .participants blockquote {
+            margin: 20px auto;
+            max-width: 100%;
+        }
+        .footer {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9em;
+        }
+        .footer a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+        /* Animations for buttons */
+        .hearts, .money {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .hearts img, .money img {
+            width: 50px;
+            height: 50px;
+            animation: floatUp 1s forwards;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -150%) scale(1);
+                opacity: 0;
+            }
+        }
+        @media (max-width: 600px) {
+            .option {
+                padding: 30px;
+                font-size: 1.5em;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .checklist li {
+                font-size: 1em;
+            }
+            .form-section label {
+                font-size: 1em;
+            }
+            .submit-button, .share-button {
+                font-size: 1.2em;
+            }
+            .radio-group label {
+                font-size: 1em;
+            }
+        }
+        /* Radio Buttons Styling */
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .radio-group label {
+            margin: 5px;
+            position: relative;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group input[type="radio"] + span {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .radio-group input[type="radio"]:checked + span {
+            background: #ff0000;
+        }
+
+        .radio-group label:hover span {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+        <br>
+        <h1>Pressão Positiva</h1>
+        <img src="https://i.postimg.cc/qMD1Pktw/giphy.webp;" width="300">
+
+        <div class="subtitle">
+            Faça Parte da <a href="https://www.missao7026.pt/missao/">Missão</a> de Controlar a Hipertensão em Portugal!
+        </div>
+        <div class="intro">
+            Quase metade dos portugueses são hipertensos. Muitos nem o sabem. Outros sabem e até podem já estar medicados mas com valores ainda elevados.
+          <p>É um fator de risco com um grande impacto na mortalidade. Por outro lado, é modificável. Porquê então ignorar?</p>
+          <p>Meça já a sua pressão arterial e pressione outros a medirem também!</p>
+        </div>
+        <div class="options">
+            <div class="option" id="measure-option">Medir a Pressão Arterial</div>
+            <div class="option" id="donate-option">Inscrever a Empresa</div>
+        </div>
+
+        <!-- Donate Section -->
+        <div class="section" id="measure-section">
+            
+            <h2>1) Preparar</h2>
+            <ul class="checklist">
+              <li><input type="checkbox"> Medidor: Arranje um medidor de braço ou vá a uma farmácia.</li>
+                <li><input type="checkbox"> Repouso: Descanse 5 minutos antes.</li>
+                <li><input type="checkbox"> Posição corporal: Sente-se com as costas apoiadas e pés no chão.</li>
+                <li><input type="checkbox"> Braço: Mantenha o braço apoiado numa mesa, à altura do coração.</li>
+                <li><input type="checkbox"> Manga: Coloque a manga do aparelho sem roupa por baixo.</li>
+                <li><input type="checkbox"> Silêncio: Fique em silêncio e relaxado durante a medição.</li>
+                <li><input type="checkbox"> Evitar estímulos: Não fale nem se mexa.</li>
+                <li><input type="checkbox"> Dupla medição: Depois de medir uma vez, pode aguardar um minuto e medir outra vez. Depois registe aqui os valores mais baixos.</li>
+            </ul>
+
+            <h2>2) Registar os Dados</h2>
+            <p>Todos os dados submetidos são anónimos e apenas para no fim vermos correlações e divulgarmos os gráficos com os resultados de todos.</p>
+            <p><a href="#" target="_blank">Política de Dados</a></p>
+
+            <!-- Form Section -->
+            <div class="form-section">
+                <form id="bp-form">
+                   <label>Foi Nomeado?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.723699953" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.723699953" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.723699953" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+                  
+                    <!-- Form fields -->
+                    <label>Local</label>
+                    <select name="entry.1583274680" required>
+                        <option value="">Selecione...</option>
+                        <option>Aveiro</option>
+                        <option>Beja</option>
+                        <option>Braga</option>
+                        <option>Bragança</option>
+                        <option>Castelo Branco</option>
+                        <option>Coimbra</option>
+                        <option>Évora</option>
+                        <option>Faro</option>
+                        <option>Guarda</option>
+                        <option>Leiria</option>
+                        <option>Lisboa</option>
+                        <option>Portalegre</option>
+                        <option>Porto</option>
+                        <option>Santarém</option>
+                        <option>Setúbal</option>
+                        <option>Viana do Castelo</option>
+                        <option>Vila Real</option>
+                        <option>Viseu</option>
+                        <option>Açores</option>
+                        <option>Madeira</option>
+                       <option>(Outro)</option>
+                    </select>
+
+                    <label>Idade</label>
+                    <input type="number" name="entry.696212112" required>
+
+                    <label>Sexo</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.1319128627" value="Masculino" required>
+                            <span>Masculino</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1319128627" value="Feminino">
+                            <span>Feminino</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1319128627" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Pratica exercício físico regularmente?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.1726477168" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1726477168" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1726477168" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Fuma ou já fumou?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.860347577" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.860347577" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.860347577" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Tem Diabetes?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.685994722" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.685994722" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.685994722" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Tem Hipertensão?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.2046806102" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.2046806102" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.2046806102" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Faz medicação para a Hipertensão?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.972051495" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.972051495" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.972051495" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Algum dos seus pais tem Hipertensão?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.551042757" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.551042757" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.551042757" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Mede regularmente a Tensão Arterial?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.57857287" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.57857287" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.57857287" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Tem Médico de Família?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.1051135997" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1051135997" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1051135997" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Costuma ler Livros?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.1923615331" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1923615331" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1923615331" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Bebe Café todos os dias?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.2007058090" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.2007058090" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.2007058090" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Costuma beber Vinho Tinto?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.1702996945" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1702996945" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.1702996945" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>O seu Emprego envolve Esforço Físico significativo?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.227784712" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.227784712" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.227784712" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <label>Costuma Dormir sempre pelo menos 8 horas?</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="entry.111959169" value="Sim" required>
+                            <span>Sim</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.111959169" value="Não">
+                            <span>Não</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="entry.111959169" value="Não respondo">
+                            <span>Não respondo</span>
+                        </label>
+                    </div>
+
+                    <!-- Nomeados -->
+                    <label>Nomeados (Quem é que nomeia a seguir para medir a Tensão Arterial dentro das próximas 24h?)</label>
+                    <input type="text" name="nomeado1" required>
+                    <input type="text" name="nomeado2" required>
+                    <input type="text" name="nomeado3" required>
+
+                    <br>
+                   <center><h2>3) Medir e Registar os Valores</h2></center>
+                  
+  <!-- Blood Pressure Inputs -->
+                    <label>Tensão Arterial Sistólica (número maior) (registe todos os algarismos)</label>
+                    <input type="number" name="entry.687029626" required min="30" max="290">
+
+                    <label>Tensão Arterial Diastólica (número menor) (registe todos os algarismos)</label>
+                    <input type="number" name="entry.1004921530" required min="30" max="290">
+                  
+                  <br>
+                   <center><h2>4) Submeter e ver se leva com a Água ou não</h2></center>
+                    <button type="submit" class="submit-button">Submeter</button>
+                </form>
+            </div>
+
+            <!-- Charts Section -->
+          <center>  
+          <div class="charts">
+              
+                <div class="chart-container">
+                    <canvas id="systolicChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="diastolicChart"></canvas>
+                </div>
+            </div>
+            </center>
+
+            <!-- Share Section -->
+            <h2>5) Partilhar!</h2>
+            <div class="share-button" id="download-button">Transferir a Imagem para Partilhar</div>
+ 
+                     <!-- Study -->
+          <br><br>
+            <h2>6) Controlar a Tensão Arterial</h2>
+          <p>Quer continuar o desafio e monitorizar a sua tensão arterial durante um mês? Junte-se ao nosso grupo.</p>
+          <a href="https://forms.gle/3Z1FJUoc1cutfADPA" target="_blank"><div class="share-button">Inscrever</div></a>
+ 
+        </div>
+
+        <!-- Measure Section -->
+        <div class="section" id="donate-section">
+            
+            <a href="https://forms.gle/3Z1FJUoc1cutfADPA" target="_blank"><div class="share-button">Inscrever</div></a>
+          
+        </div>
+      
+        <!-- Footer -->
+        <div class="footer">
+          <a href="https://sphta.org.pt/missao-70-26/" target="_blank">
+<img src="https://revistahipertensao.pt/public/site/images/admin/logo-sphta-5.png" alt="Trulli" width="150"></a>
+          <br><br>
+           <p> <a href="https://www.instagram.com/" target="_blank">Instagram</a></p>
+          <br>
+            © 2024
+            <br>By <a href="https://www.linkedin.com/in/andrefrsilva/" target="_blank">André</a>, <a href="https://www.linkedin.com/in/adrianacmonteiro/" target="_blank">Adriana</a> and <a href="https://www.linkedin.com/" target="_blank">Miriam</a><br>From Lisbon, with ❤️       
+           
+        </div>
+    </div>
+
+    <script>
+document.getElementById('measure-option').addEventListener('click', function() {
+    document.getElementById('measure-section').style.display = 'block';
+    document.getElementById('donate-section').style.display = 'none';
+
+    // Hearts animation using canvas-confetti
+    const defaults = {
+        spread: 360,
+        ticks: 100,
+        gravity: 0,
+        decay: 0.94,
+        startVelocity: 30,
+        shapes: ["heart"],
+        colors: ["#FFC0CB", "#FF69B4", "#FF1493", "#C71585"],
+    };
+
+    confetti({
+        ...defaults,
+        particleCount: 50,
+        scalar: 2,
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 25,
+        scalar: 3,
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 10,
+        scalar: 4,
+    });
+});
+
+document.getElementById('donate-option').addEventListener('click', function() {
+    document.getElementById('donate-section').style.display = 'block';
+    document.getElementById('measure-section').style.display = 'none';
+
+    // Money animation using canvas-confetti
+    const defaults = {
+        spread: 360,
+        ticks: 100,
+        gravity: 0,
+        decay: 0.94,
+        startVelocity: 30,
+        shapes: ["square"],
+        colors: ["#FFD700", "#FFFF00", "#FFA500", "#FF8C00"],
+    };
+
+    confetti({
+        ...defaults,
+        particleCount: 50,
+        scalar: 2,
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 25,
+        scalar: 3,
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 10,
+        scalar: 4,
+    });
+});
+
+        // Define getColor function
+        function getColor(value, label) {
+            if (label === 'Sistólica') {
+                if (value < 90) return 'lightblue';
+                if (value >= 180) return 'red';
+                if (value >= 140 && value <= 179) return 'darkorange';
+                if (value >= 130 && value <= 139) return 'orange';
+                if (value >= 90 && value <= 129) return 'green';
+                return 'lightblue';
+            } else {
+                // Diastólica
+                if (value < 60) return 'lightblue';
+                if (value >= 120) return 'red';
+                if (value >= 90 && value <= 119) return 'darkorange';
+                if (value >= 80 && value <= 89) return 'orange';
+                if (value >= 60 && value <= 79) return 'green';
+                return 'lightblue';
+            }
+        }
+
+        // Adjust the 'bp-form' event listener
+        document.querySelectorAll('#bp-form').forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new URLSearchParams(new FormData(form));
+
+                // Submit data to Google Form
+                fetch('https://docs.google.com/forms/u/0/d/e/1FAIpQLScFXLYaA1LVDSW3xWb0uzflWqw84jUa304Ti9GVEHmxTX2Dfg/formResponse', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formData.toString()
+                }).then(() => {
+                    console.log('Form submitted successfully.');
+                }).catch((error) => {
+                    console.error('Error submitting form:', error);
+                });
+
+                // Fetch data from Google Sheets
+                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTuEGt2opWzsauJz7m8g77FiYXx7brzx-1Em2dY8BzWBZtWr1p1bSXwtvknaobV_YOkbEeU6m5IDNVl/pub?output=csv')
+                .then(response => response.text())
+                .then(csvText => {
+                    const systolicValues = [];
+                    const diastolicValues = [];
+                    const rows = csvText.split('\n').slice(1);
+                    rows.forEach(row => {
+                        const cols = row.split(',');
+                        systolicValues.push(parseInt(cols[cols.length - 3]));
+                        diastolicValues.push(parseInt(cols[cols.length - 2]));
+                    });
+
+                    // Get user's systolic and diastolic values
+                    const userSystolic = parseInt(form.querySelector('input[name="entry.687029626"]').value);
+                    const userDiastolic = parseInt(form.querySelector('input[name="entry.1004921530"]').value);
+
+                    // Get colors
+                    const systolicColor = getColor(userSystolic, 'Sistólica');
+                    const diastolicColor = getColor(userDiastolic, 'Diastólica');
+
+                    // Plot charts
+                   plotChart(form, 'systolicChart', systolicValues, userSystolic, 'Sistólica');
+                   plotChart(form, 'diastolicChart', diastolicValues, userDiastolic, 'Diastólica');
+
+
+                    // Display the user's blood pressure values on top of the charts
+                    const chartsContainer = form.closest('.section').querySelector('.charts');
+
+                    const bpValuesContainer = document.createElement('div');
+                    bpValuesContainer.style.display = 'flex';
+                    bpValuesContainer.style.justifyContent = 'space-around';
+                    bpValuesContainer.style.margin = '20px 0';
+
+                    const systolicDisplay = document.createElement('div');
+                    systolicDisplay.textContent = 'Sistólica: ' + userSystolic;
+                    systolicDisplay.style.backgroundColor = systolicColor;
+                    systolicDisplay.style.color = 'white';
+                    systolicDisplay.style.fontSize = '2em';
+                    systolicDisplay.style.padding = '10px';
+                    systolicDisplay.style.borderRadius = '0px';
+
+                    const diastolicDisplay = document.createElement('div');
+                    diastolicDisplay.textContent = 'Diastólica: ' + userDiastolic;
+                    diastolicDisplay.style.backgroundColor = diastolicColor;
+                    diastolicDisplay.style.color = 'white';
+                    diastolicDisplay.style.fontSize = '2em';
+                    diastolicDisplay.style.padding = '10px';
+                    diastolicDisplay.style.borderRadius = '5px';
+
+                    bpValuesContainer.appendChild(systolicDisplay);
+                    bpValuesContainer.appendChild(diastolicDisplay);
+
+                    chartsContainer.insertBefore(bpValuesContainer, chartsContainer.firstChild);
+
+                    // Play audio based on blood pressure values
+                    if (systolicColor !== 'green' || diastolicColor !== 'green') {
+                        // Play alarm sound
+                        const audio = new Audio('https://github.com/andrefrsilva/tensionada/raw/refs/heads/main/Alarm%20Sound%20Effect.mp3');
+                        audio.play().catch(error => {
+                            console.error('Audio playback failed:', error);
+                            alert('Audio playback was blocked by your browser. Please click to allow audio.');
+                        });
+                    } else {
+                        // Play win sound
+                        const audio = new Audio('https://github.com/andrefrsilva/tensionada/raw/refs/heads/main/WIN%20sound%20effect%20no%20copyright.mp3');
+                        audio.play().catch(error => {
+                            console.error('Audio playback failed:', error);
+                            alert('Audio playback was blocked by your browser. Please click to allow audio.');
+                        });
+                    }
+
+                    // Store values for image download
+                 form.userSystolic = userSystolic;
+form.userDiastolic = userDiastolic;
+form.systolicColor = systolicColor;
+form.diastolicColor = diastolicColor;
+
+                });
+            });
+        });
+
+function plotChart(form, canvasId, dataValues, userValue, label) {
+    const ctx = form.closest('.section').querySelector('#' + canvasId).getContext('2d');
+
+    // Destroy existing chart if it exists
+    if (form[canvasId + 'ChartInstance']) {
+        form[canvasId + 'ChartInstance'].destroy();
+    }
+
+    // Prepare bins and dataCounts
+    const bins = [];
+    for (let i = 30; i <= 250; i += 10) {
+        bins.push(i);
+    }
+    const dataCounts = new Array(bins.length).fill(0);
+
+    dataValues.forEach(value => {
+        const index = Math.floor((value - 30) / 10);
+        if (index >= 0 && index < dataCounts.length) {
+            dataCounts[index]++;
+        }
+    });
+
+    // Compute percentages
+    const totalCount = dataValues.length;
+    const dataPercentages = dataCounts.map(count => (count / totalCount) * 100);
+
+    const backgroundColors = bins.map(bin => {
+        if (label === 'Sistólica') {
+            if (bin < 90) return 'lightblue';
+            if (bin >= 180) return 'red';
+            if (bin >= 140 && bin <= 170) return 'darkorange';
+            if (bin >= 130 && bin <= 139) return 'orange';
+            if (bin >= 90 && bin <= 120) return 'green';
+            return 'lightblue';
+        } else {
+            if (bin < 60) return 'lightblue';
+            if (bin >= 120) return 'red';
+            if (bin >= 90 && bin <= 110) return 'darkorange';
+            if (bin >= 80 && bin <= 89) return 'orange';
+            if (bin >= 60 && bin <= 79) return 'green';
+            return 'lightblue';
+        }
+    });
+
+    // Find the bin index where the user's value falls
+    const userBinIndex = Math.floor((userValue - 30) / 10);
+
+    // Create borderColor and borderWidth arrays
+    const borderColors = backgroundColors.map((color, index) => index === userBinIndex ? 'white' : 'rgba(255,255,255,0.2)');
+    const borderWidths = backgroundColors.map((color, index) => index === userBinIndex ? 3 : 1);
+
+    // Create a pattern for the user's bin
+    const patternCanvas = document.createElement('canvas');
+    patternCanvas.width = 10;
+    patternCanvas.height = 10;
+    const patternCtx = patternCanvas.getContext('2d');
+
+    patternCtx.fillStyle = backgroundColors[userBinIndex];
+    patternCtx.fillRect(0, 0, patternCanvas.width, patternCanvas.height);
+
+    patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    patternCtx.lineWidth = 2;
+    patternCtx.beginPath();
+    patternCtx.moveTo(0, 0);
+    patternCtx.lineTo(10, 10);
+    patternCtx.stroke();
+    patternCtx.beginPath();
+    patternCtx.moveTo(10, 0);
+    patternCtx.lineTo(0, 10);
+    patternCtx.stroke();
+
+    const pattern = ctx.createPattern(patternCanvas, 'repeat');
+
+    // Apply pattern to user's bin
+    const barBackgroundColors = backgroundColors.map((color, index) => {
+        if (index === userBinIndex) {
+            return pattern;
+        } else {
+            return color;
+        }
+    });
+
+    // Create the new chart and store the instance
+    form[canvasId + 'ChartInstance'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: bins.map(bin => bin.toString()),
+            datasets: [{
+                data: dataPercentages,
+                backgroundColor: barBackgroundColors,
+                borderColor: borderColors,
+                borderWidth: borderWidths
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: label,
+                        color: '#fff',
+                        font: {
+                            size: 20
+                        }
+                    },
+                    ticks: {
+                        color: '#fff',
+                        font: {
+                            size: 14
+                        },
+                        maxRotation: 90,
+                        minRotation: 90,
+                        autoSkip: false
+                    },
+                    grid: {
+                        color: '#555'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#fff',
+                        font: {
+                            size: 14
+                        },
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
+                    grid: {
+                        color: '#555'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+      
+        // Adjust the 'download-button' event listener
+document.querySelectorAll('#download-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const parentSection = button.closest('.section');
+        const form = parentSection.querySelector('#bp-form');
+
+        const userSystolic = form.userSystolic;
+        const userDiastolic = form.userDiastolic;
+        const systolicColor = form.systolicColor;
+        const diastolicColor = form.diastolicColor;
+
+        const canvas1 = parentSection.querySelector('#systolicChart');
+        const canvas2 = parentSection.querySelector('#diastolicChart');
+        const titleText = "#aTensão! A minha TA:";
+        const timestamp = new Date().toLocaleString();
+
+        // Create a temporary canvas to combine everything
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = 2000;
+        tempCanvas.height = 2400;
+        const ctx = tempCanvas.getContext('2d');
+
+        // Draw background
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+        // Set font and alignment
+        ctx.font = 'bold 60px Arial';
+        ctx.textBaseline = 'middle';
+
+        // Measure widths
+        ctx.fillStyle = '#fff';
+        const titleTextWidth = ctx.measureText(titleText).width;
+        const timestampWidth = ctx.measureText(timestamp).width;
+        const slashWidth = ctx.measureText('/').width;
+
+        const systolicValueWidth = 200; // Fixed width for systolic value box
+        const diastolicValueWidth = 200; // Fixed width for diastolic value box
+
+        // Total width
+        const totalWidth = titleTextWidth + 20 + systolicValueWidth + 20 + slashWidth + 20 + diastolicValueWidth + 20 + timestampWidth;
+
+        // Starting X position
+        const startX = (tempCanvas.width - totalWidth) / 2;
+        const centerY = 100; // Vertical position
+
+        let currentX = startX;
+
+        // Draw title text
+        ctx.textAlign = 'left';
+        ctx.fillText(titleText, currentX, centerY);
+        currentX += titleTextWidth + 20;
+
+        // Draw systolic value with background
+        ctx.fillStyle = systolicColor;
+        ctx.fillRect(currentX, centerY - 40, systolicValueWidth, 80);
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText(userSystolic, currentX + systolicValueWidth / 2, centerY);
+        currentX += systolicValueWidth + 20;
+
+        // Draw '/'
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('/', currentX, centerY);
+        currentX += slashWidth + 20;
+
+        // Draw diastolic value with background
+        ctx.fillStyle = diastolicColor;
+        ctx.fillRect(currentX, centerY - 40, diastolicValueWidth, 80);
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText(userDiastolic, currentX + diastolicValueWidth / 2, centerY);
+        currentX += diastolicValueWidth + 20;
+
+        // Draw timestamp
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#fff';
+        ctx.fillText(timestamp, currentX, centerY);
+
+        // Draw charts
+        ctx.drawImage(canvas1, 100, centerY + 100, 1800, 800);
+        ctx.drawImage(canvas2, 100, centerY + 950, 1800, 800);
+
+        // Draw Nomeados
+        ctx.font = 'bold 48px Arial';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nomeados para Medirem também nas próximas 24h:', tempCanvas.width / 2, 1900);
+        const nomeado1 = form.querySelector('input[name="nomeado1"]').value;
+        const nomeado2 = form.querySelector('input[name="nomeado2"]').value;
+        const nomeado3 = form.querySelector('input[name="nomeado3"]').value;
+        ctx.font = '48px Arial';
+        ctx.fillText(nomeado1, tempCanvas.width / 2, 2000);
+        ctx.fillText(nomeado2, tempCanvas.width / 2, 2100);
+        ctx.fillText(nomeado3, tempCanvas.width / 2, 2200);
+
+        // Download image
+        const link = document.createElement('a');
+        link.download = 'Tensionada.png';
+        link.href = tempCanvas.toDataURL('image/png', 1.0);
+        link.click();
+
+        // Show alert
+        alert('A imagem foi transferida. Partilhe-a com #atensao e envie já para os nomeados.');
+    });
+});
+    
+    </script>
+</body>
+</html>
